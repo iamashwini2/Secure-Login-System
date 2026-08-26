@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Two-Factor Verification{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card two-factor-verify-card">
+
+        <div class="card-glow"></div>
+
+
+        <!-- Cinematic verification core -->
+
+        <div class="verification-core">
+
+            <div class="core-ring ring-one"></div>
+
+            <div class="core-ring ring-two"></div>
+
+            <div class="core-center">
+                ◈
+            </div>
+
+        </div>
+
+
+        <!-- Status -->
+
+        <div class="verification-status">
+
+            <span class="status-dot"></span>
+
+            IDENTITY VERIFICATION REQUIRED
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                SECOND SECURITY LAYER
+            </span>
+
+            <h1>
+                Verify <span>Identity</span>
+            </h1>
+
+            <p>
+                Welcome back, {{ username }}.
+                Enter the six-digit code from
+                your authenticator application.
+            </p>
+
+        </div>
+
+
+        <!-- Verification form -->
+
+        <form
+            method="POST"
+            class="auth-form"
+        >
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <div class="input-group">
+
+                <label for="code">
+                    AUTHENTICATION CODE
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        #
+                    </span>
+
+                    <input
+                        id="code"
+                        type="text"
+                        name="code"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        placeholder="000000"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+
+                <span>
+                    Verify Access
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <!-- Security note -->
+
+        <div class="verification-note">
+
+            <span>◆</span>
+
+            Your authentication code is
+            temporary and changes automatically.
+
+        </div>
+
+
+        <p class="auth-footer">
+
+            <a href="{{ url_for('auth.logout') }}">
+                Cancel and logout
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

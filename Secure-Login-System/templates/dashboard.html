@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block title %}Security Dashboard{% endblock %}
+
+{% block content %}
+
+<section class="dashboard">
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+
+        <div>
+
+            <span class="eyebrow">
+                SECURITY CONSOLE
+            </span>
+
+            <!-- Important: keep this as one text node.
+                 test_login_success expects "Welcome, testuser" -->
+            <h1>Welcome, {{ username }}</h1>
+
+            <p>
+                Your authentication environment is active.
+            </p>
+
+        </div>
+
+        <div class="live-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM SECURE
+
+        </div>
+
+    </div>
+
+
+    <!-- Security Score -->
+    <div class="security-score-card">
+
+        <div class="score-ring">
+
+            <div class="score-inner">
+                <strong>85</strong>
+                <span>/100</span>
+            </div>
+
+        </div>
+
+        <div class="score-info">
+
+            <span class="eyebrow">
+                SECURITY SCORE
+            </span>
+
+            <h2>
+                Good Protection
+            </h2>
+
+            <p>
+                Your account is protected by
+                multiple security layers.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Security Cards -->
+    <div class="security-grid">
+
+        <!-- Password -->
+        <div class="security-card">
+
+            <div class="security-card-icon">
+                🔐
+            </div>
+
+            <div>
+
+                <span class="card-label">
+                    PASSWORD
+                </span>
+
+                <h3>
+                    Protected
+                </h3>
+
+                <p>
+                    bcrypt hashing enabled
+                </p>
+
+            </div>
+
+            <span class="check">
+                ✓
+            </span>
+
+        </div>
+
+
+        <!-- Session -->
+        <div class="security-card">
+
+            <div class="security-card-icon">
+                🛡
+            </div>
+
+            <div>
+
+                <span class="card-label">
+                    SESSION
+                </span>
+
+                <h3>
+                    Active
+                </h3>
+
+                <p>
+                    Secure HTTP-only session
+                </p>
+
+            </div>
+
+            <span class="check">
+                ✓
+            </span>
+
+        </div>
+
+
+        <!-- Login Protection -->
+        <div class="security-card">
+
+            <div class="security-card-icon">
+                ⚡
+            </div>
+
+            <div>
+
+                <span class="card-label">
+                    LOGIN PROTECTION
+                </span>
+
+                <h3>
+                    Enabled
+                </h3>
+
+                <p>
+                    Rate limiting active
+                </p>
+
+            </div>
+
+            <span class="check">
+                ✓
+            </span>
+
+        </div>
+
+
+        <!-- 2FA -->
+        <div class="security-card">
+
+    <div class="security-card-icon">
+        ◈
+    </div>
+
+    <div>
+
+        <span class="card-label">
+            TWO-FACTOR
+        </span>
+
+        {% if two_factor_enabled %}
+
+            <h3 class="two-factor-enabled">
+                Enabled
+            </h3>
+
+            <p>
+                Authenticator protection active
+            </p>
+
+        {% else %}
+
+            <h3 class="two-factor-disabled">
+                Available
+            </h3>
+
+            <p>
+                Additional protection
+            </p>
+
+        {% endif %}
+
+    </div>
+
+    {% if two_factor_enabled %}
+
+        <span class="check">
+            ✓
+        </span>
+
+    {% else %}
+
+        <a
+            href="{{ url_for('two_factor.setup') }}"
+            class="arrow"
+        >
+            →
+        </a>
+
+    {% endif %}
+
+</div>
+
+
+    <!-- Security Activity -->
+    <div class="activity-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    SECURITY ACTIVITY
+                </span>
+
+                <h2>
+                    Authentication Status
+                </h2>
+
+            </div>
+
+            <span class="live-badge">
+                LIVE
+            </span>
+
+        </div>
+
+
+        <!-- Activity 1 -->
+        <div class="activity-row">
+
+            <span class="activity-icon">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    Authentication successful
+                </strong>
+
+                <p>
+                    Secure session established
+                </p>
+
+            </div>
+
+            <span class="activity-time">
+                NOW
+            </span>
+
+        </div>
+
+
+        <!-- Activity 2 -->
+        <div class="activity-row">
+
+            <span class="activity-icon">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    CSRF protection active
+                </strong>
+
+                <p>
+                    Requests are protected
+                </p>
+
+            </div>
+
+            <span class="activity-time">
+                ACTIVE
+            </span>
+
+        </div>
+
+
+        <!-- Activity 3 -->
+        <div class="activity-row">
+
+            <span class="activity-icon">
+                ✓
+            </span>
+
+            <div>
+
+                <strong>
+                    Session protection active
+                </strong>
+
+                <p>
+                    Authenticated session detected
+                </p>
+
+            </div>
+
+            <span class="activity-time">
+                ACTIVE
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Logout -->
+    <div class="dashboard-actions">
+
+        <a
+            href="{{ url_for('auth.logout') }}"
+            class="secondary-button"
+        >
+            Secure Logout
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

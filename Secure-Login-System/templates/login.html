@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Secure Login{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <div class="card-glow"></div>
+
+
+        <!-- Security icon -->
+
+        <div class="security-icon">
+
+            <div class="shield">
+
+                <span>⌁</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                SECURE ACCESS
+            </span>
+
+            <h1>
+                Welcome <span>Back</span>
+            </h1>
+
+            <p>
+                Authenticate to access your secure account.
+            </p>
+
+        </div>
+
+
+        <form method="POST" class="auth-form">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <div class="input-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ◉
+                    </span>
+
+                    <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        required
+                        maxlength="50"
+                        autocomplete="username"
+                        placeholder="Enter your username"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <div class="password-label">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                </div>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ◈
+                    </span>
+
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()"
+                        aria-label="Show password"
+                    >
+                        ◉
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+
+                <span>
+                    Authenticate
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <div class="auth-divider">
+
+            <span>SECURITY LAYER</span>
+
+        </div>
+
+
+        <div class="security-features">
+
+            <div>
+                <span>✓</span>
+                Encrypted Password
+            </div>
+
+            <div>
+                <span>✓</span>
+                Protected Session
+            </div>
+
+            <div>
+                <span>✓</span>
+                CSRF Protected
+            </div>
+
+        </div>
+
+
+        <p class="auth-footer">
+
+            Don't have an account?
+
+            <a href="{{ url_for('auth.register') }}">
+                Create one
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    password.type =
+        password.type === "password"
+            ? "text"
+            : "password";
+}
+
+</script>
+
+{% endblock %}

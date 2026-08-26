@@ -1,0 +1,342 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card register-card">
+
+        <div class="card-glow"></div>
+
+
+        <div class="security-icon">
+
+            <div class="shield">
+                +
+            </div>
+
+        </div>
+
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                NEW IDENTITY
+            </span>
+
+            <h1>
+                Create <span>Account</span>
+            </h1>
+
+            <p>
+                Establish your secure digital identity.
+            </p>
+
+        </div>
+
+
+        <form method="POST" class="auth-form">
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <div class="input-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ◉
+                    </span>
+
+                    <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        required
+                        minlength="3"
+                        maxlength="50"
+                        autocomplete="username"
+                        placeholder="Choose a username"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        @
+                    </span>
+
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                        maxlength="120"
+                        autocomplete="email"
+                        placeholder="you@example.com"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        ◈
+                    </span>
+
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        required
+                        minlength="8"
+                        autocomplete="new-password"
+                        placeholder="Create a strong password"
+                        oninput="checkPassword(this.value)"
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()"
+                    >
+                        ◉
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Password strength -->
+
+            <div class="password-strength">
+
+                <div class="strength-bar">
+
+                    <span id="strength-progress"></span>
+
+                </div>
+
+                <span id="strength-text">
+                    Password strength
+                </span>
+
+            </div>
+
+
+            <div class="password-requirements">
+
+                <div id="length">
+                    <span>○</span>
+                    8+ characters
+                </div>
+
+                <div id="uppercase">
+                    <span>○</span>
+                    Uppercase
+                </div>
+
+                <div id="number">
+                    <span>○</span>
+                    Number
+                </div>
+
+                <div id="special">
+                    <span>○</span>
+                    Special character
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+
+                <span>
+                    Create Secure Account
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Already have an account?
+
+            <a href="{{ url_for('auth.login') }}">
+                Sign in
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    password.type =
+        password.type === "password"
+            ? "text"
+            : "password";
+}
+
+
+function checkPassword(password) {
+
+    const length =
+        password.length >= 8;
+
+    const uppercase =
+        /[A-Z]/.test(password);
+
+    const number =
+        /\d/.test(password);
+
+    const special =
+        /[^\w\s]/.test(password);
+
+
+    updateRequirement(
+        "length",
+        length
+    );
+
+    updateRequirement(
+        "uppercase",
+        uppercase
+    );
+
+    updateRequirement(
+        "number",
+        number
+    );
+
+    updateRequirement(
+        "special",
+        special
+    );
+
+
+    const score =
+        [length, uppercase, number, special]
+        .filter(Boolean)
+        .length;
+
+
+    const progress =
+        document.getElementById(
+            "strength-progress"
+        );
+
+    const text =
+        document.getElementById(
+            "strength-text"
+        );
+
+
+    progress.style.width =
+        `${score * 25}%`;
+
+
+    if (score === 0) {
+
+        text.textContent =
+            "Password strength";
+
+    } else if (score <= 2) {
+
+        text.textContent =
+            "Weak password";
+
+    } else if (score === 3) {
+
+        text.textContent =
+            "Good password";
+
+    } else {
+
+        text.textContent =
+            "Strong password";
+
+    }
+
+}
+
+
+function updateRequirement(
+    id,
+    valid
+) {
+
+    const element =
+        document.getElementById(id);
+
+    const icon =
+        element.querySelector("span");
+
+
+    if (valid) {
+
+        icon.textContent = "✓";
+
+        element.classList.add("valid");
+
+    } else {
+
+        icon.textContent = "○";
+
+        element.classList.remove("valid");
+
+    }
+
+}
+
+</script>
+
+{% endblock %}
