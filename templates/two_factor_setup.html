@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Enable Two-Factor Authentication{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card two-factor-card">
+
+        <div class="card-glow"></div>
+
+
+        <!-- Animated security core -->
+
+        <div class="verification-core">
+
+            <div class="core-ring ring-one"></div>
+
+            <div class="core-ring ring-two"></div>
+
+            <div class="core-center">
+                ◈
+            </div>
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="auth-heading">
+
+            <span class="eyebrow">
+                SECURITY UPGRADE
+            </span>
+
+            <h1>
+                Enable <span>2FA</span>
+            </h1>
+
+            <p>
+                Add an additional authentication layer
+                to protect your SecureAuth account.
+            </p>
+
+        </div>
+
+
+        <!-- Setup steps -->
+
+        <div class="setup-instructions">
+
+            <div class="setup-step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+
+                    <strong>
+                        Install an authenticator
+                    </strong>
+
+                    <p>
+                        Use Google Authenticator,
+                        Microsoft Authenticator,
+                        Authy, or another compatible
+                        TOTP authenticator.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="setup-step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+
+                    <strong>
+                        Scan the security QR code
+                    </strong>
+
+                    <p>
+                        Open your authenticator app
+                        and scan the QR code below.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- QR Code -->
+
+        <div class="qr-container">
+
+            <div class="qr-frame">
+
+                <img
+                    src="data:image/png;base64,{{ qr_code }}"
+                    alt="Two-factor authentication QR code"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Manual secret -->
+
+        <details class="manual-secret">
+
+            <summary>
+                Can't scan the QR code?
+            </summary>
+
+            <div class="secret-box">
+
+                {{ secret }}
+
+            </div>
+
+        </details>
+
+
+        <!-- Verification -->
+
+        <form
+            method="POST"
+            class="auth-form"
+        >
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <div class="input-group">
+
+                <label for="code">
+                    AUTHENTICATOR CODE
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        #
+                    </span>
+
+                    <input
+                        id="code"
+                        type="text"
+                        name="code"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        placeholder="000000"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+
+                <span>
+                    Activate 2FA
+                </span>
+
+                <span class="button-arrow">
+                    →
+                </span>
+
+            </button>
+
+        </form>
+
+
+        <div class="verification-note">
+
+            <span>◆</span>
+
+            Your authenticator generates a new
+            security code every 30 seconds.
+
+        </div>
+
+
+        <p class="auth-footer">
+
+            <a href="{{ url_for('main.dashboard') }}">
+                ← Return to dashboard
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+{% endblock %}

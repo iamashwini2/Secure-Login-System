@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="SecureAuth - Modern Secure Authentication System"
+    >
+
+    <title>
+        {% block title %}SecureAuth{% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- Background -->
+
+    <div class="background-grid"></div>
+
+    <div class="glow glow-one"></div>
+
+    <div class="glow glow-two"></div>
+
+
+    <!-- Particles -->
+
+    <div class="particles">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+    <nav class="navbar">
+
+    <div class="nav-container">
+
+        <a
+            href="{{ url_for('main.index') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                ⌬
+            </span>
+
+            <span>
+                Secure<span class="accent">Auth</span>
+            </span>
+
+        </a>
+
+        <div class="nav-links">
+
+            {% if session.get("user_id") %}
+
+                <a href="{{ url_for('main.dashboard') }}">
+                    Dashboard
+                </a>
+
+                <a
+                    href="{{ url_for('auth.logout') }}"
+                    class="logout-link"
+                >
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="{{ url_for('auth.login') }}">
+                    Login
+                </a>
+
+                <a
+                    href="{{ url_for('auth.register') }}"
+                    class="nav-register"
+                >
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+
+    <!-- Main -->
+
+    <main class="page-container">
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+
+            {% if messages %}
+
+
+                <div class="flash-container">
+
+
+                    {% for category, message in messages %}
+
+
+                        <div class="alert {{ category }}">
+
+
+                            <span class="alert-icon">
+
+
+                                {% if category == "success" %}
+
+                                    ✓
+
+                                {% else %}
+
+                                    !
+
+                                {% endif %}
+
+
+                            </span>
+
+
+                            <span>
+                                {{ message }}
+                            </span>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            {% endif %}
+
+
+        {% endwith %}
+
+
+        {% block content %}{% endblock %}
+
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer class="footer">
+
+
+        <div class="security-status">
+
+            <span class="status-dot"></span>
+
+            <span>
+                SECURE CONNECTION
+            </span>
+
+        </div>
+
+
+        <span>
+            SecureAuth • Protected Authentication System
+        </span>
+
+
+    </footer>
+
+
+    <!-- Mouse effect -->
+
+    <script>
+
+        document.addEventListener(
+            "mousemove",
+            function (event) {
+
+                const x =
+                    (event.clientX / window.innerWidth) * 100;
+
+                const y =
+                    (event.clientY / window.innerHeight) * 100;
+
+
+                document.documentElement.style.setProperty(
+                    "--mouse-x",
+                    `${x}%`
+                );
+
+
+                document.documentElement.style.setProperty(
+                    "--mouse-y",
+                    `${y}%`
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

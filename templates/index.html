@@ -1,0 +1,328 @@
+{% extends "base.html" %}
+
+{% block title %}
+SecureAuth | Modern Secure Authentication
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Secure Authentication Platform
+    </div>
+
+    <h1>
+        Protect Your
+        <span class="highlight">Digital Identity</span>
+    </h1>
+
+    <p class="hero-description">
+        A modern authentication system built with multiple
+        security layers to protect user accounts, credentials,
+        and sessions.
+    </p>
+
+    <div class="hero-actions">
+
+        <a
+            href="{{ url_for('auth.login') }}"
+            class="btn btn-primary"
+        >
+            <span>Login</span>
+            <span class="btn-arrow">→</span>
+        </a>
+
+        <a
+            href="{{ url_for('auth.register') }}"
+            class="btn btn-secondary"
+        >
+            Create Account
+        </a>
+
+    </div>
+
+    <div class="hero-trust">
+
+        <div>
+            <span class="trust-check">✓</span>
+            Password Hashing
+        </div>
+
+        <div>
+            <span class="trust-check">✓</span>
+            CSRF Protected
+        </div>
+
+        <div>
+            <span class="trust-check">✓</span>
+            Secure Sessions
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SECURITY OVERVIEW -->
+<section class="security-overview">
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            SECURITY BY DESIGN
+        </span>
+
+        <h2>
+            Built for Modern Authentication
+        </h2>
+
+        <p>
+            Multiple security layers work together to protect
+            every authentication request.
+        </p>
+
+    </div>
+
+
+    <div class="features-grid">
+
+
+        <!-- PASSWORD -->
+        <article class="feature-card">
+
+            <div class="feature-top">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <span class="feature-number">
+                    01
+                </span>
+
+            </div>
+
+            <h3>
+                Secure Passwords
+            </h3>
+
+            <p>
+                User passwords are hashed before storage,
+                preventing plain-text credential exposure.
+            </p>
+
+            <div class="feature-status">
+                <span></span>
+                Protected
+            </div>
+
+        </article>
+
+
+        <!-- CSRF -->
+        <article class="feature-card">
+
+            <div class="feature-top">
+
+                <div class="feature-icon">
+                    🛡️
+                </div>
+
+                <span class="feature-number">
+                    02
+                </span>
+
+            </div>
+
+            <h3>
+                CSRF Protection
+            </h3>
+
+            <p>
+                Authentication forms use CSRF tokens to
+                protect against forged requests.
+            </p>
+
+            <div class="feature-status">
+                <span></span>
+                Protected
+            </div>
+
+        </article>
+
+
+        <!-- 2FA -->
+        <article class="feature-card">
+
+            <div class="feature-top">
+
+                <div class="feature-icon">
+                    🔑
+                </div>
+
+                <span class="feature-number">
+                    03
+                </span>
+
+            </div>
+
+            <h3>
+                Two-Factor Authentication
+            </h3>
+
+            <p>
+                Optional TOTP-based 2FA provides an additional
+                layer of protection for user accounts.
+            </p>
+
+            <div class="feature-status">
+                <span></span>
+                Available
+            </div>
+
+        </article>
+
+
+        <!-- RATE LIMIT -->
+        <article class="feature-card">
+
+            <div class="feature-top">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <span class="feature-number">
+                    04
+                </span>
+
+            </div>
+
+            <h3>
+                Rate Limiting
+            </h3>
+
+            <p>
+                Authentication endpoints are protected against
+                excessive requests and brute-force attempts.
+            </p>
+
+            <div class="feature-status">
+                <span></span>
+                Protected
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- SECURITY ARCHITECTURE -->
+<section class="architecture">
+
+    <div class="architecture-content">
+
+        <div class="architecture-label">
+            <span></span>
+            SECURITY ARCHITECTURE
+        </div>
+
+        <h2>
+            Defense in Depth
+        </h2>
+
+        <p>
+            SecureAuth combines several independent security
+            controls instead of relying on a single protection
+            mechanism.
+        </p>
+
+    </div>
+
+
+    <div class="architecture-layers">
+
+        <div class="layer">
+            <span class="layer-icon">01</span>
+
+            <div>
+                <strong>Password Hashing</strong>
+                <small>Credentials protected at rest</small>
+            </div>
+
+            <span class="layer-check">✓</span>
+        </div>
+
+
+        <div class="layer">
+            <span class="layer-icon">02</span>
+
+            <div>
+                <strong>Session Security</strong>
+                <small>HTTPOnly & SameSite cookies</small>
+            </div>
+
+            <span class="layer-check">✓</span>
+        </div>
+
+
+        <div class="layer">
+            <span class="layer-icon">03</span>
+
+            <div>
+                <strong>CSRF Protection</strong>
+                <small>Requests verified with security tokens</small>
+            </div>
+
+            <span class="layer-check">✓</span>
+        </div>
+
+
+        <div class="layer">
+            <span class="layer-icon">04</span>
+
+            <div>
+                <strong>Rate Limiting</strong>
+                <small>Protection against excessive requests</small>
+            </div>
+
+            <span class="layer-check">✓</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CTA -->
+<section class="cta-section">
+
+    <div class="cta-icon">
+        ⌬
+    </div>
+
+    <h2>
+        Ready to secure your account?
+    </h2>
+
+    <p>
+        Create an account and experience the SecureAuth
+        authentication system.
+    </p>
+
+    <a
+        href="{{ url_for('auth.register') }}"
+        class="btn btn-primary"
+    >
+        Create Secure Account
+        <span class="btn-arrow">→</span>
+    </a>
+
+</section>
+
+{% endblock %}
