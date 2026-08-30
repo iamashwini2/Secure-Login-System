@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -30,7 +31,9 @@
 <body>
 
 
-    <!-- Background -->
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
 
     <div class="background-grid"></div>
 
@@ -39,7 +42,9 @@
     <div class="glow glow-two"></div>
 
 
-    <!-- Particles -->
+    <!-- =====================================================
+         PARTICLES
+    ====================================================== -->
 
     <div class="particles">
 
@@ -54,68 +59,110 @@
 
     </div>
 
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
     <nav class="navbar">
 
-    <div class="nav-container">
+        <div class="nav-container">
 
-        <a
-            href="{{ url_for('main.index') }}"
-            class="brand"
-        >
 
-            <span class="brand-icon">
-                ⌬
-            </span>
+            <!-- Brand -->
 
-            <span>
-                Secure<span class="accent">Auth</span>
-            </span>
+            <a
+                href="{{ url_for('main.index') }}"
+                class="brand"
+            >
 
-        </a>
+                <span class="brand-icon">
+                    ⌬
+                </span>
 
-        <div class="nav-links">
+                <span>
+                    Secure<span class="accent">Auth</span>
+                </span>
 
-            {% if session.get("user_id") %}
+            </a>
 
-                <a href="{{ url_for('main.dashboard') }}">
-                    Dashboard
-                </a>
 
-                <a
-                    href="{{ url_for('auth.logout') }}"
-                    class="logout-link"
-                >
-                    Logout
-                </a>
+            <!-- Navigation -->
 
-            {% else %}
+            <div class="nav-links">
 
-                <a href="{{ url_for('auth.login') }}">
-                    Login
-                </a>
 
-                <a
-                    href="{{ url_for('auth.register') }}"
-                    class="nav-register"
-                >
-                    Register
-                </a>
+                {% if session.get("user_id") %}
 
-            {% endif %}
+
+                    <a href="{{ url_for('main.dashboard') }}">
+                        Dashboard
+                    </a>
+
+
+                    <!--
+                        Secure POST logout.
+
+                        Do not change this back to an <a> tag
+                        because the Flask logout route accepts POST.
+                    -->
+
+                    <form
+                        action="{{ url_for('auth.logout') }}"
+                        method="POST"
+                        class="logout-form"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button
+                            type="submit"
+                            class="logout-link logout-button"
+                        >
+                            Logout
+                        </button>
+
+                    </form>
+
+
+                {% else %}
+
+
+                    <a href="{{ url_for('auth.login') }}">
+                        Login
+                    </a>
+
+
+                    <a
+                        href="{{ url_for('auth.register') }}"
+                        class="nav-register"
+                    >
+                        Register
+                    </a>
+
+
+                {% endif %}
+
+
+            </div>
 
         </div>
 
-    </div>
-
-</nav>
+    </nav>
 
 
-
-
-    <!-- Main -->
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
 
     <main class="page-container">
 
+
+        <!-- Flash messages -->
 
         {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -134,7 +181,6 @@
 
                             <span class="alert-icon">
 
-
                                 {% if category == "success" %}
 
                                     ✓
@@ -144,7 +190,6 @@
                                     !
 
                                 {% endif %}
-
 
                             </span>
 
@@ -175,7 +220,9 @@
     </main>
 
 
-    <!-- Footer -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
     <footer class="footer">
 
@@ -199,7 +246,9 @@
     </footer>
 
 
-    <!-- Mouse effect -->
+    <!-- =====================================================
+         BACKGROUND MOUSE EFFECT
+    ====================================================== -->
 
     <script>
 

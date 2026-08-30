@@ -87,6 +87,15 @@ def validate_password(password):
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
 
+    # --------------------------------------------------------
+    # Already logged-in users do not need registration page
+    # --------------------------------------------------------
+
+    if session.get("user_id"):
+        return redirect(
+            url_for("main.dashboard")
+        )
+
     if request.method == "POST":
 
         username = request.form.get(
@@ -126,7 +135,8 @@ def register():
         if not validate_username(username):
 
             flash(
-                "Username must contain only letters, numbers, and underscores, and be 3-50 characters long.",
+                "Username must contain only letters, numbers, "
+                "and underscores, and be 3-50 characters long.",
                 "danger"
             )
 
@@ -156,7 +166,9 @@ def register():
         if not validate_password(password):
 
             flash(
-                "Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.",
+                "Password must contain at least 8 characters, "
+                "including uppercase, lowercase, number, "
+                "and special character.",
                 "danger"
             )
 
@@ -207,8 +219,24 @@ def register():
             password_hash=password_hash
         )
 
-        db.session.add(user)
-        db.session.commit()
+        try:
+
+            db.session.add(user)
+
+            db.session.commit()
+
+        except Exception:
+
+            db.session.rollback()
+
+            flash(
+                "Unable to create your account. Please try again.",
+                "danger"
+            )
+
+            return render_template(
+                "register.html"
+            )
 
         flash(
             "Registration successful. Please log in.",
@@ -230,6 +258,19 @@ def register():
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
+
+    # --------------------------------------------------------
+    # If already fully authenticated, go to dashboard
+    # --------------------------------------------------------
+
+    if (
+        session.get("user_id")
+        and session.get("two_factor_verified", False)
+    ):
+
+        return redirect(
+            url_for("main.dashboard")
+        )
 
     if request.method == "POST":
 
@@ -272,20 +313,42 @@ def login():
         # Verify password
         # ----------------------------------------------------
 
-        if user and bcrypt.checkpw(
-            password.encode("utf-8"),
-            user.password_hash.encode("utf-8")
-        ):
+        valid_password = False
+
+        if user:
+
+            try:
+
+                valid_password = bcrypt.checkpw(
+                    password.encode("utf-8"),
+                    user.password_hash.encode("utf-8")
+                )
+
+            except (ValueError, TypeError):
+
+                valid_password = False
+
+        # ----------------------------------------------------
+        # Successful password authentication
+        # ----------------------------------------------------
+
+        if user and valid_password:
 
             # ------------------------------------------------
-            # Clear old session
             # Prevent session fixation
             # ------------------------------------------------
 
             session.clear()
 
             # ------------------------------------------------
-            # Create authenticated session
+            # Mark session permanent
+            # Uses PERMANENT_SESSION_LIFETIME from config.py
+            # ------------------------------------------------
+
+            session.permanent = True
+
+            # ------------------------------------------------
+            # Store authenticated user
             # ------------------------------------------------
 
             session["user_id"] = user.id
@@ -306,9 +369,6 @@ def login():
             # ------------------------------------------------
 
             if two_factor and two_factor.enabled:
-
-                # User has authenticated with password,
-                # but has NOT completed 2FA yet.
 
                 session["two_factor_verified"] = False
 
@@ -344,13 +404,20 @@ def login():
 # LOGOUT
 # ============================================================
 
-@auth_bp.route("/logout")
+@auth_bp.route(
+    "/logout",
+    methods=["POST"]
+)
 def logout():
+
+    # --------------------------------------------------------
+    # Clear complete authenticated session
+    # --------------------------------------------------------
 
     session.clear()
 
     flash(
-        "You have been logged out.",
+        "You have been securely logged out.",
         "success"
     )
 

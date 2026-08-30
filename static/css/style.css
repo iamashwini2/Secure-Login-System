@@ -2733,3 +2733,75 @@ input:focus-visible {
     }
 
 }
+/* =========================================================
+   NAVBAR SECURE LOGOUT
+   ========================================================= */
+
+.logout-form {
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+}
+
+
+.logout-button {
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-family: inherit;
+}
+
+
+.nav-links .logout-button {
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    color: #f87171;
+
+    background: transparent;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.nav-links .logout-button:hover {
+
+    color: #fecaca;
+
+    background:
+        rgba(239, 68, 68, 0.07);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.nav-links .logout-button:active {
+
+    transform:
+        translateY(0);
+}
+
+
+.nav-links .logout-button:focus-visible {
+
+    outline:
+        2px solid #f87171;
+
+    outline-offset: 3px;
+}
