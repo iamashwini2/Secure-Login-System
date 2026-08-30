@@ -1,336 +1,673 @@
 {% extends "base.html" %}
 
-{% block title %}Security Dashboard{% endblock %}
+{% block title %}Security Dashboard | SecureAuth{% endblock %}
 
 {% block content %}
 
 <section class="dashboard">
 
-    <!-- Dashboard Header -->
-    <div class="dashboard-header">
+    <!-- =========================
+         DASHBOARD HEADER
+    ========================== -->
+
+    <header class="dashboard-hero">
+
+        <div class="dashboard-welcome">
+
+            <span class="eyebrow">
+                SECUREAUTH / SECURITY CENTER
+            </span>
+
+            <h1>
+                Welcome, <span>{{ user.username }}</span>
+            </h1>
+
+            <p>
+                Review your account protection, authentication status,
+                and active security controls.
+            </p>
+
+        </div>
+
+        <div class="system-status-card">
+
+            <div class="system-status-icon">
+                ✓
+            </div>
+
+            <div>
+                <small>ACCOUNT STATUS</small>
+                <strong>Protected</strong>
+            </div>
+
+            <span class="status-dot"></span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         SECURITY OVERVIEW
+    ========================== -->
+
+    <div class="dashboard-overview">
+
+        <!-- SECURITY SCORE -->
+
+        <article class="security-score-card">
+
+            <div class="score-ring">
+
+                <div class="score-ring-inner">
+
+                    <strong>
+                        {% if two_factor_enabled %}
+                            95
+                        {% else %}
+                            80
+                        {% endif %}
+                    </strong>
+
+                    <span>/100</span>
+
+                </div>
+
+            </div>
+
+            <div class="score-content">
+
+                <span class="eyebrow">
+                    SECURITY SCORE
+                </span>
+
+                {% if two_factor_enabled %}
+
+                    <h2>
+                        Excellent Protection
+                    </h2>
+
+                    <p>
+                        Your account has strong authentication
+                        protection including two-factor authentication.
+                    </p>
+
+                {% else %}
+
+                    <h2>
+                        Good Protection
+                    </h2>
+
+                    <p>
+                        Your account is protected, but enabling
+                        two-factor authentication will improve
+                        account security.
+                    </p>
+
+                {% endif %}
+
+                <div class="security-progress">
+
+                    <div
+                        class="security-progress-bar
+                        {% if two_factor_enabled %}score-95{% else %}score-80{% endif %}">
+                    </div>
+
+                </div>
+
+                <div class="progress-labels">
+
+                    <span>
+                        Protection strength
+                    </span>
+
+                    <strong>
+                        {% if two_factor_enabled %}
+                            95%
+                        {% else %}
+                            80%
+                        {% endif %}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ACCOUNT -->
+
+        <article class="account-card">
+
+            <div class="account-avatar">
+                {{ user.username[0] | upper }}
+            </div>
+
+            <div class="account-information">
+
+                <span class="eyebrow">
+                    AUTHENTICATED USER
+                </span>
+
+                <h2>
+                    {{ user.username }}
+                </h2>
+
+                {% if user.email %}
+
+                    <p>
+                        {{ user.email }}
+                    </p>
+
+                {% endif %}
+
+                <div class="account-badge">
+
+                    <span></span>
+
+                    Authenticated session
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <!-- =========================
+         PROTECTION LAYERS
+    ========================== -->
+
+    <div class="dashboard-section-heading">
 
         <div>
 
             <span class="eyebrow">
-                SECURITY CONSOLE
-            </span>
-
-            <!-- Important: keep this as one text node.
-                 test_login_success expects "Welcome, testuser" -->
-            <h1>Welcome, {{ username }}</h1>
-
-            <p>
-                Your authentication environment is active.
-            </p>
-
-        </div>
-
-        <div class="live-status">
-
-            <span class="status-dot"></span>
-
-            SYSTEM SECURE
-
-        </div>
-
-    </div>
-
-
-    <!-- Security Score -->
-    <div class="security-score-card">
-
-        <div class="score-ring">
-
-            <div class="score-inner">
-                <strong>85</strong>
-                <span>/100</span>
-            </div>
-
-        </div>
-
-        <div class="score-info">
-
-            <span class="eyebrow">
-                SECURITY SCORE
+                PROTECTION LAYERS
             </span>
 
             <h2>
-                Good Protection
+                Account Security
             </h2>
 
-            <p>
-                Your account is protected by
-                multiple security layers.
-            </p>
-
         </div>
+
+        <span class="security-layer-count">
+            4 SECURITY CONTROLS
+        </span>
 
     </div>
 
 
-    <!-- Security Cards -->
-    <div class="security-grid">
+    <div class="dashboard-security-grid">
 
-        <!-- Password -->
-        <div class="security-card">
+        <!-- PASSWORD -->
 
-            <div class="security-card-icon">
-                🔐
-            </div>
+        <article class="dashboard-security-card">
 
-            <div>
+            <div class="dashboard-card-top">
 
-                <span class="card-label">
-                    PASSWORD
+                <div class="dashboard-security-icon">
+                    🔐
+                </div>
+
+                <span class="security-state active">
+                    ACTIVE
                 </span>
 
-                <h3>
-                    Protected
-                </h3>
-
-                <p>
-                    bcrypt hashing enabled
-                </p>
-
             </div>
 
-            <span class="check">
-                ✓
+            <span class="dashboard-card-label">
+                PASSWORD SECURITY
             </span>
 
-        </div>
+            <h3>
+                bcrypt Protected
+            </h3>
 
+            <p>
+                Your password is protected using secure
+                one-way password hashing.
+            </p>
 
-        <!-- Session -->
-        <div class="security-card">
+            <div class="security-card-footer">
 
-            <div class="security-card-icon">
-                🛡
+                <span class="mini-status-dot"></span>
+
+                Password hashing active
+
             </div>
 
-            <div>
+        </article>
 
-                <span class="card-label">
-                    SESSION
+
+        <!-- SESSION -->
+
+        <article class="dashboard-security-card">
+
+            <div class="dashboard-card-top">
+
+                <div class="dashboard-security-icon">
+                    🛡
+                </div>
+
+                <span class="security-state active">
+                    ACTIVE
                 </span>
 
-                <h3>
-                    Active
-                </h3>
-
-                <p>
-                    Secure HTTP-only session
-                </p>
-
             </div>
 
-            <span class="check">
-                ✓
+            <span class="dashboard-card-label">
+                SESSION SECURITY
             </span>
 
-        </div>
+            <h3>
+                Secure Session
+            </h3>
 
+            <p>
+                Your authenticated state is maintained
+                using protected Flask sessions.
+            </p>
 
-        <!-- Login Protection -->
-        <div class="security-card">
+            <div class="security-card-footer">
 
-            <div class="security-card-icon">
-                ⚡
+                <span class="mini-status-dot"></span>
+
+                Session authenticated
+
             </div>
 
-            <div>
+        </article>
 
-                <span class="card-label">
-                    LOGIN PROTECTION
+
+        <!-- RATE LIMITING -->
+
+        <article class="dashboard-security-card">
+
+            <div class="dashboard-card-top">
+
+                <div class="dashboard-security-icon">
+                    ⚡
+                </div>
+
+                <span class="security-state active">
+                    ACTIVE
                 </span>
 
-                <h3>
-                    Enabled
-                </h3>
+            </div>
 
-                <p>
-                    Rate limiting active
-                </p>
+            <span class="dashboard-card-label">
+                LOGIN DEFENSE
+            </span>
+
+            <h3>
+                Rate Limited
+            </h3>
+
+            <p>
+                Repeated authentication requests are restricted
+                to reduce brute-force login attempts.
+            </p>
+
+            <div class="security-card-footer">
+
+                <span class="mini-status-dot"></span>
+
+                Request protection enabled
 
             </div>
 
-            <span class="check">
-                ✓
-            </span>
-
-        </div>
+        </article>
 
 
         <!-- 2FA -->
-        <div class="security-card">
 
-    <div class="security-card-icon">
-        ◈
+        <article class="dashboard-security-card">
+
+            <div class="dashboard-card-top">
+
+                <div class="dashboard-security-icon">
+                    ◈
+                </div>
+
+                {% if two_factor_enabled %}
+
+                    <span class="security-state active">
+                        ENABLED
+                    </span>
+
+                {% else %}
+
+                    <span class="security-state recommended">
+                        RECOMMENDED
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+            <span class="dashboard-card-label">
+                TWO-FACTOR AUTHENTICATION
+            </span>
+
+            {% if two_factor_enabled %}
+
+                <h3>
+                    Authenticator Enabled
+                </h3>
+
+                <p>
+                    Your account requires an additional
+                    authenticator verification code during login.
+                </p>
+
+                <div class="security-card-footer">
+
+                    <span class="mini-status-dot"></span>
+
+                    Additional verification active
+
+                </div>
+
+            {% else %}
+
+                <h3>
+                    Add More Protection
+                </h3>
+
+                <p>
+                    Enable an authenticator app to protect your
+                    account even if your password is compromised.
+                </p>
+
+                <a
+                    href="{{ url_for('two_factor.setup') }}"
+                    class="security-action-link"
+                >
+                    Enable 2FA
+
+                    <span>
+                        →
+                    </span>
+                </a>
+
+            {% endif %}
+
+        </article>
+
     </div>
 
-    <div>
 
-        <span class="card-label">
-            TWO-FACTOR
-        </span>
+    <!-- =========================
+         LOWER DASHBOARD
+    ========================== -->
 
-        {% if two_factor_enabled %}
+    <div class="dashboard-bottom-grid">
 
-            <h3 class="two-factor-enabled">
-                Enabled
-            </h3>
+        <!-- SECURITY ACTIVITY -->
 
-            <p>
-                Authenticator protection active
-            </p>
+        <article class="activity-panel">
 
-        {% else %}
+            <div class="panel-header">
 
-            <h3 class="two-factor-disabled">
-                Available
-            </h3>
+                <div>
 
-            <p>
-                Additional protection
-            </p>
+                    <span class="eyebrow">
+                        SECURITY ACTIVITY
+                    </span>
 
-        {% endif %}
+                    <h2>
+                        Protection Status
+                    </h2>
 
-    </div>
+                </div>
 
-    {% if two_factor_enabled %}
+                <span class="live-badge">
 
-        <span class="check">
-            ✓
-        </span>
+                    <span></span>
 
-    {% else %}
+                    LIVE
 
-        <a
-            href="{{ url_for('two_factor.setup') }}"
-            class="arrow"
-        >
-            →
-        </a>
-
-    {% endif %}
-
-</div>
-
-
-    <!-- Security Activity -->
-    <div class="activity-panel">
-
-        <div class="panel-header">
-
-            <div>
-
-                <span class="eyebrow">
-                    SECURITY ACTIVITY
                 </span>
 
-                <h2>
-                    Authentication Status
-                </h2>
+            </div>
+
+
+            <div class="activity-list">
+
+                <div class="activity-row">
+
+                    <div class="activity-icon">
+                        ✓
+                    </div>
+
+                    <div class="activity-details">
+
+                        <strong>
+                            Authentication successful
+                        </strong>
+
+                        <p>
+                            Secure login session established.
+                        </p>
+
+                    </div>
+
+                    <span class="activity-time">
+                        NOW
+                    </span>
+
+                </div>
+
+
+                <div class="activity-row">
+
+                    <div class="activity-icon">
+                        ✓
+                    </div>
+
+                    <div class="activity-details">
+
+                        <strong>
+                            CSRF protection active
+                        </strong>
+
+                        <p>
+                            Form requests include CSRF validation.
+                        </p>
+
+                    </div>
+
+                    <span class="activity-time">
+                        ACTIVE
+                    </span>
+
+                </div>
+
+
+                <div class="activity-row">
+
+                    <div class="activity-icon">
+                        ✓
+                    </div>
+
+                    <div class="activity-details">
+
+                        <strong>
+                            Password protection active
+                        </strong>
+
+                        <p>
+                            Credentials are protected using bcrypt.
+                        </p>
+
+                    </div>
+
+                    <span class="activity-time">
+                        ACTIVE
+                    </span>
+
+                </div>
+
+
+                <div class="activity-row">
+
+                    <div class="activity-icon {% if not two_factor_enabled %}warning{% endif %}">
+
+                        {% if two_factor_enabled %}
+                            ✓
+                        {% else %}
+                            !
+                        {% endif %}
+
+                    </div>
+
+                    <div class="activity-details">
+
+                        <strong>
+                            Two-factor authentication
+                        </strong>
+
+                        <p>
+
+                            {% if two_factor_enabled %}
+
+                                Authenticator protection is active.
+
+                            {% else %}
+
+                                Enable 2FA for stronger account security.
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                    <span
+                        class="activity-time
+                        {% if not two_factor_enabled %}warning-text{% endif %}"
+                    >
+
+                        {% if two_factor_enabled %}
+                            ACTIVE
+                        {% else %}
+                            OPTIONAL
+                        {% endif %}
+
+                    </span>
+
+                </div>
 
             </div>
 
-            <span class="live-badge">
-                LIVE
+        </article>
+
+
+        <!-- SECURITY ACTIONS -->
+
+        <aside class="security-actions-panel">
+
+            <span class="eyebrow">
+                SECURITY ACTIONS
             </span>
 
-        </div>
+            <h2>
+                Protect Your Account
+            </h2>
+
+            <p class="action-description">
+                Manage the most important authentication
+                and account security controls.
+            </p>
 
 
-        <!-- Activity 1 -->
-        <div class="activity-row">
+            {% if not two_factor_enabled %}
 
-            <span class="activity-icon">
-                ✓
-            </span>
+                <a
+                    href="{{ url_for('two_factor.setup') }}"
+                    class="security-quick-action"
+                >
 
-            <div>
+                    <div class="quick-action-icon">
+                        ◈
+                    </div>
 
-                <strong>
-                    Authentication successful
-                </strong>
+                    <div>
 
-                <p>
-                    Secure session established
-                </p>
+                        <strong>
+                            Enable Two-Factor Authentication
+                        </strong>
+
+                        <span>
+                            Add authenticator verification
+                        </span>
+
+                    </div>
+
+                    <span class="quick-arrow">
+                        →
+                    </span>
+
+                </a>
+
+            {% endif %}
+
+
+            <div class="security-tip">
+
+                <span class="security-tip-icon">
+                    i
+                </span>
+
+                <div>
+
+                    <strong>
+                        Security tip
+                    </strong>
+
+                    <p>
+                        Never reuse your SecureAuth password
+                        on another website.
+                    </p>
+
+                </div>
 
             </div>
 
-            <span class="activity-time">
-                NOW
-            </span>
 
-        </div>
+            <form
+                action="{{ url_for('auth.logout') }}"
+                method="POST"
+                class="dashboard-logout-form"
+            >
 
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
 
-        <!-- Activity 2 -->
-        <div class="activity-row">
+                <button
+                    type="submit"
+                    class="dashboard-logout-button"
+                >
 
-            <span class="activity-icon">
-                ✓
-            </span>
+                    <span>
+                        ⇥
+                    </span>
 
-            <div>
+                    Secure Logout
 
-                <strong>
-                    CSRF protection active
-                </strong>
+                </button>
 
-                <p>
-                    Requests are protected
-                </p>
+            </form>
 
-            </div>
-
-            <span class="activity-time">
-                ACTIVE
-            </span>
-
-        </div>
-
-
-        <!-- Activity 3 -->
-        <div class="activity-row">
-
-            <span class="activity-icon">
-                ✓
-            </span>
-
-            <div>
-
-                <strong>
-                    Session protection active
-                </strong>
-
-                <p>
-                    Authenticated session detected
-                </p>
-
-            </div>
-
-            <span class="activity-time">
-                ACTIVE
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- Logout -->
-    <div class="dashboard-actions">
-
-        <a
-            href="{{ url_for('auth.logout') }}"
-            class="secondary-button"
-        >
-            Secure Logout
-        </a>
+        </aside>
 
     </div>
 
